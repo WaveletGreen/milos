@@ -125,16 +125,16 @@ namespace UnityTemplateProjects
             {
                 //退出游戏
                 Application.Quit();
-#if UNITY_EDITOR
+                #if UNITY_EDITOR
                 //若是在Unity中，则退出运行模式
                 UnityEditor.EditorApplication.isPlaying = false;
-#endif
+                #endif
             }
 
             // Hide and lock cursor when right mouse button pressed
             //if (Input.GetMouseButtonDown(1))
             //{
-            //    Cursor.lockState = CursorLockMode.Locked;
+            //   s Cursor.lockState = CursorLockMode.Locked;
             //}
 
             // Unlock and show cursor when right mouse button released
