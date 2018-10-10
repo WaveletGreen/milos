@@ -27,7 +27,7 @@ namespace UnityTemplateProjects
 
         /*初始化主摄像机*/
         CameraState m_TargetCameraState = new CameraState();
-        /***/
+        /**这个不知道是什么鬼*/
         CameraState m_InterpolatingCameraState = new CameraState();
 
 
