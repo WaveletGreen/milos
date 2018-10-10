@@ -3,60 +3,6 @@ namespace UnityTemplateProjects
 {
     public class PlayerSimpleController : MonoBehaviour
     {
-        class CameraState
-        {
-            public float yaw;//偏航角ψ（yaw）：围绕Z轴旋转的角度
-            public float pitch;//俯仰角θ（pitch）：围绕Y轴旋转的
-            public float roll;//滚转角Φ（roll）：围绕X轴旋转的角度
-            public float x;
-            public float y;
-            public float z;
-
-            /// <summary>
-            /// 绑定当前对象
-            /// </summary>
-            /// <param name="t"></param>
-            public void SetFromTransform(Transform t)
-            {
-                //初始化
-                pitch = t.eulerAngles.x;
-                yaw = t.eulerAngles.y;
-                roll = t.eulerAngles.z;
-                x = t.position.x;
-                y = t.position.y;
-                z = t.position.z;
-            }
-
-            public void Translate(Vector3 translation)
-            {
-                Vector3 rotatedTranslation = Quaternion.Euler(pitch, yaw, roll) * translation;
-
-                x += rotatedTranslation.x;
-                y += rotatedTranslation.y;
-                z += rotatedTranslation.z;
-            }
-
-            public void LerpTowards(CameraState target, float positionLerpPct, float rotationLerpPct)
-            {
-                yaw = Mathf.Lerp(yaw, target.yaw, rotationLerpPct);
-                pitch = Mathf.Lerp(pitch, target.pitch, rotationLerpPct);
-                roll = Mathf.Lerp(roll, target.roll, rotationLerpPct);
-
-                x = Mathf.Lerp(x, target.x, positionLerpPct);
-                y = Mathf.Lerp(y, target.y, positionLerpPct);
-                z = Mathf.Lerp(z, target.z, positionLerpPct);
-            }
-
-            public void UpdateTransform(Transform t)
-            {
-                t.eulerAngles = new Vector3(pitch, yaw, roll);
-                t.position = new Vector3(x, y, z);
-            }
-        }
-
-        CameraState m_TargetCameraState = new CameraState();
-        CameraState m_InterpolatingCameraState = new CameraState();
-
         [Header("Movement Settings")]//会在Unity中显示标题
         [Tooltip("Exponential boost factor on translation, controllable by mouse wheel.")]//会在Unity中显示显示title，即为该字段的简要说明
         public float boost = 3.5f;
@@ -78,6 +24,13 @@ namespace UnityTemplateProjects
         [Header("设置鼠标灵敏度")]
         [Tooltip("其值越大，鼠标旋转方向角度越大")]
         public float mouseSense = 1F;
+
+        /*初始化主摄像机*/
+        CameraState m_TargetCameraState = new CameraState();
+        /***/
+        CameraState m_InterpolatingCameraState = new CameraState();
+
+
         void OnEnable()
         {
             m_TargetCameraState.SetFromTransform(transform);
@@ -181,6 +134,58 @@ namespace UnityTemplateProjects
             m_InterpolatingCameraState.LerpTowards(m_TargetCameraState, positionLerpPct, rotationLerpPct);
 
             m_InterpolatingCameraState.UpdateTransform(transform);
+        }
+    }
+
+
+    class CameraState
+    {
+        public float yaw;//偏航角ψ（yaw）：围绕Z轴旋转的角度
+        public float pitch;//俯仰角θ（pitch）：围绕Y轴旋转的
+        public float roll;//滚转角Φ（roll）：围绕X轴旋转的角度
+        public float x;
+        public float y;
+        public float z;
+
+        /// <summary>
+        /// 绑定当前对象
+        /// </summary>
+        /// <param name="t"></param>
+        public void SetFromTransform(Transform t)
+        {
+            //初始化
+            pitch = t.eulerAngles.x;
+            yaw = t.eulerAngles.y;
+            roll = t.eulerAngles.z;
+            x = t.position.x;
+            y = t.position.y;
+            z = t.position.z;
+        }
+
+        public void Translate(Vector3 translation)
+        {
+            Vector3 rotatedTranslation = Quaternion.Euler(pitch, yaw, roll) * translation;
+
+            x += rotatedTranslation.x;
+            y += rotatedTranslation.y;
+            z += rotatedTranslation.z;
+        }
+
+        public void LerpTowards(CameraState target, float positionLerpPct, float rotationLerpPct)
+        {
+            yaw = Mathf.Lerp(yaw, target.yaw, rotationLerpPct);
+            pitch = Mathf.Lerp(pitch, target.pitch, rotationLerpPct);
+            roll = Mathf.Lerp(roll, target.roll, rotationLerpPct);
+
+            x = Mathf.Lerp(x, target.x, positionLerpPct);
+            y = Mathf.Lerp(y, target.y, positionLerpPct);
+            z = Mathf.Lerp(z, target.z, positionLerpPct);
+        }
+
+        public void UpdateTransform(Transform t)
+        {
+            t.eulerAngles = new Vector3(pitch, yaw, roll);
+            t.position = new Vector3(x, y, z);
         }
     }
 
