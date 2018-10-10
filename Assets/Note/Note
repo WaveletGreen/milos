@@ -1,1 +1,1 @@
-1.当VS正在编辑C#脚本的时候，打开SourceTree时会报异常，只有当SourceTree打开完了之后再进行编辑脚本则可避免异常产生，即可正常提交
+1.当VS正在编辑C#脚本的时候，打开SourceTree时会报异常，只有当SourceTree打开完了之后再进行编辑脚本则可避免异常产生，即可正常提交，可能是vs中的git和sourcetree的git发生冲突
